@@ -1,0 +1,33 @@
+/////////////////////////////////
+// Calculate brightness value
+/////////////////////////////////
+
+// @function brightness($color) {
+// 	@return (red($color) + green($color) + blue($color)) / (255 * 3);
+// 	// @return lightness($color);
+// }
+
+/////////////////////////////////
+// Calculate brightness ratio
+// to base color
+/////////////////////////////////
+
+@function lightness_ratio($base, $color) {
+	@return abs(lightness($base) - lightness($color));
+}
+
+/////////////////////////////////
+// Compare colors to higher contrast
+/////////////////////////////////
+
+@function contrast($base, $color1: white, $color2: black) {
+	@return if(lightness_ratio($base, $color1) > lightness_ratio($base, $color2), $color1, $color2);
+}
+
+/////////////////////////////////
+// Compare colors to lower contrast (inverting the former contrast function)
+/////////////////////////////////
+
+@function invert-contrast($base, $color1: white, $color2: black) {
+	@return if(lightness_ratio($base, $color1) > lightness_ratio($base, $color2), $color2, $color1);
+}

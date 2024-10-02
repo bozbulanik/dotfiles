@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+import sys
+
+sys.path.append('/home/bozb/scripts/pyphoon/build/lib/pyphoon/lib/')
+
+import time
+import astro
+
+def moon_icon():
+	icon_count = 27
+	icon_start = 0xe38d
+
+	moon_phase, _, _, _, _, _, _ = astro.phase(astro.unix_to_julian(time.time()))
+	return chr(int(moon_phase * icon_count) + icon_start)
+
+if __name__ == "__main__":
+	print(moon_icon())

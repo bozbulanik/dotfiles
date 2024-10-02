@@ -1,0 +1,95 @@
+#We cannot use pywal to customize dunst, 
+#so a bruteforce approach is needed.
+
+[global]
+background = "#101010"
+foreground = "#b9b9b9"
+highlight = "#c8c8c8"
+frame_color = "#7c7c7c"
+monitor = 0
+follow = mouse
+width = 480
+height = 380
+progress_bar = true
+progress_bar_height = 25
+progress_bar_frame_width = 3
+progress_bar_min_width = 384
+progress_bar_max_width = 512
+indicate_hidden = true
+shrink = true
+transparency = 0
+separator_height = 1
+gap_size = 12
+padding = 10
+horizontal_padding = 10
+frame_width = 1
+sort = true
+idle_threshold = 0
+font = DM Mono 12
+line_height = 2
+markup = full
+origin = "bottom-right"
+offset = "50x50"
+format = "<b>%s</b>\n%b"
+alignment = left
+show_age_threshold = 60
+word_wrap = false
+ignore_newline = true
+stack_duplicates = true
+hide_duplicate_count = true
+show_indicators = true
+icon_position = left
+max_icon_size = 128
+min_icon_size = 104
+enable_recursive_icon_lookup = true
+sticky_history = true
+history_length = 50
+browser = firefox
+always_run_script = true
+title = Dunst
+class = Dunst
+corner_radius = 0
+notification_limit = 5
+mouse_left_click = do_action
+mouse_middle_click = close_current
+mouse_right_click = context_all
+ignore_dbusclose = true
+ellipsize = end
+
+[urgency_low]
+# IMPORTANT: colors have to be defined in quotation marks.
+# Otherwise the '#' and following  would be interpreted as a comment.
+background = "#101010"
+foreground = "#b9b9b9"
+frame_color = "#F5D732"
+timeout = 3
+
+[urgency_normal]
+background = "#101010"
+foreground = "#b9b9b9"
+frame_color = "#7c7c7c"
+timeout = 10
+
+[urgency_critical]
+background = "#101010"
+foreground = "#b9b9b9"
+frame_color = "#AF3232"
+timeout = 0
+
+[usb]
+summary = Automount
+format = "<b>%s</b>\n%b"
+
+[firefox]
+appname = firefox
+new_icon = firefox-default
+
+[Spotify]
+appname = Spotify
+background = "#101010"
+foreground = "#b9b9b9"
+frame_color = "#1db954"
+
+# vim:filetype=dosini
+
+

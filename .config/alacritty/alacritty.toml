@@ -1,0 +1,20 @@
+[window]
+
+opacity = 1
+
+padding.x = 10
+padding.y = 10
+
+decorations = "None"
+blur = false
+
+[font]
+
+normal.family = "DM Mono"
+
+normal.style = "regular"
+size = 10.0
+
+[cursor]
+style.shape = "Beam"
+style.blinking = "On"

@@ -1,0 +1,104 @@
+#!/bin/sh
+
+ICON_WIFI="﬉"
+ICON_WIFI_DISCONNECTED="睊"
+ICON_ETH=""
+ICON_BT=""
+
+network_print() {
+	connection_list=$(nmcli -t -f name,type,device,state connection show --order name --active 2>/dev/null | grep -vE ':(bridge|wireguard):')
+	printf "(box :space-evenly false :vexpand true "
+
+	# Check if Bluetooth is active
+	if systemctl is-active --quiet bluetooth; then
+		printf "(label :class 'label good' :tooltip 'Bluetooth Active' :text '%s')" "$ICON_BT"
+	else
+		printf "(label :class 'label bad' :tooltip 'Bluetooth Inactive' :text '%s')" "$ICON_BT"
+	fi
+
+	wifi_active=false
+	ethernet_active=false
+
+	if [ -n "$connection_list" ] && [ "$(echo "$connection_list" | wc -l)" -gt 0 ]; then
+		echo "$connection_list" | while read -r line; do
+			description=$(echo "$line" | sed -e 's/\\:/-/g' | cut -d ':' -f 1)
+			type=$(echo "$line" | sed -e 's/\\:/-/g' | cut -d ':' -f 2)
+			device=$(echo "$line" | sed -e 's/\\:/-/g' | cut -d ':' -f 3)
+			state=$(echo "$line" | sed -e 's/\\:/-/g' | cut -d ':' -f 4)
+			class=""
+
+			if [ "$state" = "activated" ]; then
+				if [ "$type" = "802-11-wireless" ]; then
+					wifi_active=true
+					icon=$ICON_WIFI
+
+					signal=$(nmcli -t -f in-use,signal device wifi list ifname "$device" | grep "\*" | cut -d ':' -f 2)
+					if [ "$signal" -lt 33 ]; then
+						class="bad"
+					elif [ "$signal" -lt 66 ]; then
+						class="warn"
+					else
+						class="good"
+					fi
+				elif [ "$type" = "802-3-ethernet" ]; then
+					ethernet_active=true
+					icon=$ICON_ETH
+
+					speed="$(cat /sys/class/net/"$device"/speed)"
+					if [ "$speed" -ne -1 ]; then
+						if [ "$speed" -ge 1000 ]; then
+							speed="$((($speed + 500) / 1000)) Gbps"
+						else
+							speed="$speed Mbps"
+						fi
+						description="$speed"
+					fi
+				else
+					continue  # Skip non-WiFi and non-Ethernet connections
+				fi
+
+				# Print the label for active connections
+				printf "(label :class 'label %s' :tooltip '%s' :text '%s')" "$class" "$description" "$icon"
+			fi
+		done
+	fi
+
+	# Check for WiFi not connected
+	if [ "$wifi_active" = false ]; then
+		wifi_device=$(nmcli -t -f device,type,state device status | grep '^w' | cut -d ':' -f 1)
+		if [ -n "$wifi_device" ]; then
+			printf "(label :class 'label bad' :tooltip 'WiFi Disconnected' :text '%s')" "$ICON_WIFI_DISCONNECTED"
+		fi
+	fi
+
+	printf ")"
+}
+
+# network_update() {
+# 	pid=$(cat "$path_pid")
+
+# 	if [ "$pid" != "" ]; then
+# 		kill -10 "$pid"
+# 	fi
+# }
+
+# path_pid="/tmp/polybar-network-networkmanager.pid"
+
+# case "$1" in
+# 	--update)
+# 		network_update
+# 		;;
+# 	*)
+		# echo $$ > $path_pid
+
+		# trap exit INT
+		# trap "echo" USR1
+
+		# while true; do
+			network_print
+
+			# sleep 10 &
+			# wait
+		# done
+# 		;;
+# esac

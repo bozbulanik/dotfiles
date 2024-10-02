@@ -1,0 +1,24 @@
+#!/bin/sh
+
+LOCATION_RESP=$(curl -X GET -s https://ipinfo.io 2>/dev/null)
+#CITY=$(echo "$LOCATION_RESP" | jq -r '"\(.city)"')
+CITY="Mezitli:Mersin"	
+HOT_THRESHOLD=35
+COLD_THRESHOLD=10
+
+TEMP=$(curl -s wttr.in/$CITY?format=%t | grep -oP '[-]?\d+')
+
+ICON_CLASS=$(curl -s wttr.in/$CITY?format=%C | tr '[:upper:]' '[:lower:]')
+ICON=$(curl -s wttr.in/$CITY?format=%c)
+
+TOOLTIP=$(curl -s "wttr.in/$CITY?format=%l:%20%c+%t+(%f)+%20+-+%C%20-%20Wind:%20%w%20-%20%m%20\nHumidity:%20%h%20Precipitation:%20%p%20Pressure:%20%P%20-%20UV:%20%u\nSunset:%20%s\nSunrise:%20%S\nDawn:%20%D\nDusk:%20%d\nZenith:%20%z\nLast%20Updated:%20%T%20")
+
+if (( TEMP < COLD_THRESHOLD )); then
+    TEMP_CLASS="cold"
+elif (( TEMP >= COLD_THRESHOLD && TEMP <= HOT_THRESHOLD )); then
+    TEMP_CLASS="normal"
+else
+    TEMP_CLASS="hot"
+fi
+
+echo "(box :space-evenly true :vexpand true (label :tooltip '$TOOLTIP' :class 'label temp-$TEMP_CLASS' :text 'tmp. $TEMP°C'))"

@@ -1,0 +1,44 @@
+(include "eww_widgets.yuck")
+
+(defwindow main
+    :monitor 0
+    :geometry (geometry
+        :x '0%'
+        :y '0%'
+        :width '100%'
+        :height '32px'
+        :anchor 'top center')
+    :stacking 'fg'
+    :reserve (struts :distance '32px' :side 'top')
+    :wm-ignore false
+    :exclusive true
+    
+	(box :class 'wrapper'
+    (box :orientation 'h'
+        (box :class 'section' :halign 'start' :space-evenly false :spacing 0
+        	(workspaces)
+        	(divider)
+        	(music)
+       	)
+
+        (box :class 'section' :halign 'end' :space-evenly false	            
+			(github)
+			(divider)
+			(updates)
+			(divider)
+			(speaker)
+			(divider)
+			(microphone)
+			(divider)
+			(battery :bat '${EWW_BATTERY.BAT1}')
+			(divider)
+			(weather)
+			(divider)
+            (date)
+       		(divider)
+            (time)
+        )
+    ))
+)
+
+

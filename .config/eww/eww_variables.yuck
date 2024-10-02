@@ -1,0 +1,22 @@
+(defvar show_sys false)
+
+(deflisten workspaces0_poll "./scripts/workspaces.sh eDP-1")
+(deflisten music :initial "" "playerctl --follow metadata --format '{{artist}} - {{title}}'")
+(deflisten musicstatus :initial "" "playerctl --follow metadata --format '{{status}}'")
+(deflisten activeapplication 'bash ./scripts/activeapp.sh')
+
+(defpoll github_poll :initial "" :interval "1m" "./scripts/github.sh")
+(defpoll updates_poll :initial "" :interval "1m" "./scripts/updates.sh &")  
+(defpoll speaker_poll :initial "{}" :interval "999h" "./scripts/speaker.sh")
+
+(defpoll weather_label :interval "30m" 'bash scripts/weather')
+(defpoll date_poll :interval "1m" "date '+%d %B %Y - %A'")
+(defpoll time_poll :interval "1s" "date +%H:%M")
+
+
+(defpoll ping_poll :interval "10s" "./scripts/ping.sh")
+(defpoll trash_poll :interval "10s" "./scripts/trash.sh")
+(defpoll microphone_poll :initial "{}" :interval "999h" "./scripts/microphone.sh")
+(defpoll moon_label :interval '6h''python scripts/moon')
+(defpoll networks :interval "10s" 'bash scripts/network')
+(deflisten nvidia_listen "bash ./scripts/nvidia.sh")

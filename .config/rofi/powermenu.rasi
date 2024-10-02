@@ -1,0 +1,44 @@
+@import "~/.config/rofi/config.rasi"
+
+configuration {
+	show-icons: false;
+	fixed-num-lines: false;
+	scroll-method: 0;
+}
+
+window {
+	width: 384px;
+	border: 1px;
+	border-color: @foreground;
+	padding: 12px;
+	margin: 0px;
+	
+}
+
+mainbox {
+	children: [listview];
+	
+}
+
+listview {
+	layout: vertical;
+	
+}
+	element {
+		orientation: vertical;
+		margin: 12px;
+
+		spacing: 4px;
+	}
+	element.selected {
+		border: 1px;
+		border-color: @foreground;
+		border-color: @foreground;
+	}
+		element-text {
+			expand: true;
+		    text-color: inherit;
+		    horizontal-align: 0.5;
+		    vertical-align: 0.5;
+		    padding: 10px;
+    	}

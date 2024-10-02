@@ -1,0 +1,144 @@
+(include "eww_variables.yuck")
+
+(defwidget divider []
+	(label :class 'divider'
+			:text '❘')
+)
+
+(defwidget icon-module [icon ?class ?visible]
+  (box :class "${class} icon-module"
+       :orientation "h"
+       :halign "end"
+       :space-evenly false
+       :visible {visible ?: true} ; because the argument is optional
+    (label :class "icon-module__icon" :text "${icon}")
+    (children)))
+; foldend
+
+(defwidget workspaces []
+    (literal :content workspaces0_poll ))
+
+(defwidget music []
+  (box :class "music"
+       :orientation "h"
+       :space-evenly false
+       :halign "center"
+    (label :truncate true
+    		:text
+			activeapplication
+		;{musicstatus == "Playing" ? "${music}" : "${activeapplication}"}
+    )))
+
+(defwidget github []
+  (icon-module :class "label" :icon "gh."
+    (label :text github_poll))) 
+
+(defwidget updates []
+  (icon-module :class "label" :icon "upds." :visible {updates_poll != ""}
+    (label :text updates_poll))) 
+
+(defwidget speaker []
+  (icon-module :class "speaker" 
+               :icon "spk."
+    (eventbox :onscroll `eww update speaker_poll="$(./scripts/speaker.sh {})"`
+      (button :onclick `eww update speaker_poll="$(./scripts/speaker.sh toogle)"`
+        (label :text {speaker_poll.content})))))
+
+(defwidget microphone []
+  (icon-module :class "microphone" 
+               :icon "mic."
+    (eventbox :onscroll `eww update microphone_poll="$(./scripts/microphone.sh {})"`
+      (button :onclick `eww update microphone_poll="$(./scripts/microphone.sh toogle)"`
+        (label :text {microphone_poll.content})))))
+
+(defwidget battery [bat]
+	(icon-module :class "battery" :icon "bat. "
+    (label
+    	
+    	:tooltip '${bat.status}'
+        :class "label ${
+            bat.status == 'Discharging' && bat.capacity <= 10
+                ? 'bad'
+                : (bat.status == 'Charging' && bat.capacity > 95) || bat.status == 'Full'
+                    ? 'good'
+                    : ''}"
+        :text "${bat.capacity}%"
+            ;bat.status == 'Discharging'
+            ;    ? bat.capacity <= 5 ? '󰂃'
+            ;    : bat.capacity <= 15 ? '󰁺'
+            ;    : bat.capacity <= 25 ? '󰁻'
+            ;    : bat.capacity <= 35 ? '󰁼'
+            ;    : bat.capacity <= 45 ? '󰁽'
+            ;    : bat.capacity <= 55 ? '󰁾'
+            ;    : bat.capacity <= 65 ? '󰁿'
+            ;    : bat.capacity <= 75 ? '󰂀'
+            ;    : bat.capacity <= 85 ? '󰂁'
+            ;    : bat.capacity <= 95 ? '󰂂'
+            ;    : '󰁹'
+            ;: bat.status == 'Charging'
+            ;    ? '󰂄'
+            ;: '󰁹'
+            ;}"
+    ))
+)
+
+(defwidget weather []
+    ;(button
+        ;:onclick '/home/bozb/scripts/kitty-popup floating 73 29 -c "wego; read -n 1 -p \'\'; exit"'
+		(literal :content weather_label)
+    ;)
+)
+(defwidget date []
+  (box :class "label"
+	(label :text date_poll)))
+
+(defwidget time []
+  (box :class "label"
+	(label :text time_poll)))
+
+
+;------------------
+
+
+(defwidget ram []
+  (icon-module :class "label" :icon "RAM" :visible {EWW_RAM.used_mem_perc != ""}
+    (label :text "${round(EWW_RAM.used_mem_perc, 0)}%")))
+
+(defwidget gpu []
+  (icon-module :class "label" :icon "GPU" 
+    (label :text nvidia_listen))) 
+
+(defwidget cpu []
+  (icon-module :class "label" :icon "CPU" 
+    (label :text "${round(EWW_CPU.avg, 0)}%"))) 
+
+(defwidget disk []
+  (icon-module :class "label" :icon "DISK" 
+    (label :text "${round(EWW_DISK["/"].used_perc, 0)}%"))) 
+
+(defwidget trash []
+  (icon-module :class "label" :icon "TRASH" 
+    (label :text trash_poll))) 
+
+(defwidget ping []
+  (icon-module :class "label" :icon "PING "
+    (label :text ping_poll))) 
+
+(defwidget net_down []
+    (label :class 'label'
+        :text ' ${round((EWW_NET.enp3s0.NET_DOWN+EWW_NET.wlan0.NET_DOWN)*8/1024, 1)}k'
+    )
+)
+(defwidget net_up []
+    (label :class 'label'
+        :text ' ${round((EWW_NET.enp3s0.NET_UP+EWW_NET.wlan0.NET_UP)*8/1024, 1)}k'
+    )
+)
+
+(defwidget moon []
+  (box :class "label"
+	(label :class 'label'
+	            :text '${moon_label}'
+	        )))
+
+

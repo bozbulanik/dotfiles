@@ -1,0 +1,118 @@
+@import '/home/bozb/.cache/wal/colors.scss';
+@import 'mixins';
+
+$red: adjust-color(change-color($color1, $hue: 10deg), $saturation: 20%);
+$orange: adjust-color(change-color($color1, $hue: 20deg), $saturation: 20%);
+$yellow: adjust-color(change-color($color1, $hue: 60deg), $saturation: 20%, $lightness: -10%);
+$green: adjust-color(change-color($color1, $hue: 134deg), $saturation: 20%, $lightness: -15%);
+$cyan: adjust-color(change-color($color1, $hue: 170deg), $saturation: 20%, $lightness: -15%);
+$blue: adjust-color(change-color($color1, $hue: 210deg), $saturation: 20%);
+$lavender: adjust-color(change-color($color1, $hue: 250deg), $saturation: 20%, $lightness: 10%);
+$pink: adjust-color(change-color($color1, $hue: 300deg), $saturation: 20%, $lightness: 10%);
+
+$color-good: $green;
+$color-warn: $yellow;
+$color-bad: $red;
+
+$fg-muted: $color1;
+$accent: $color4;
+$on-accent: contrast($color4, $foreground, $background);
+
+* {
+	all: unset;
+}
+
+window {
+	color: $foreground;
+	font-family: DM Mono;
+	font-weight: normal;
+	font-size: 16px;
+}
+.good {
+	color: $color-good;
+}
+.warn {
+	color: $color-warn;
+}
+.bad {
+	color: $color-bad;
+}
+.critical {
+	background-color: $color-bad;
+}
+
+.label {
+	color: $foreground;
+	padding: 4px;
+}
+
+.wrapper {
+	border: 1px solid $fg-muted;
+	padding-left: 12px;
+	padding-right: 12px;
+	margin-left: 12px;
+	margin-right: 12px;
+	margin-top: 12px;
+	background-color: $background;
+}
+.button { 
+	font-size: 16px;
+    color: $foreground; 
+    transition: 100ms ease all;
+}
+tooltip {
+	font-family: "DM Mono";
+	font-size: 16px;
+    background-color: $background;
+    border: 1px solid $fg-muted;
+    color: $foreground;
+}
+
+tooltip * {
+    padding: 2px;
+}
+.workspaces {
+	margin-left: 0px;
+	margin-right: 0px;
+	padding: 4px;
+	&.active {
+		color: $on-accent;
+	}
+	&.empty {
+		color: $fg-muted;
+		font-size: 16px;
+	}
+	.label {
+		color: $foreground;
+	}
+}
+
+.temp-cold { color: $blue; }
+.temp-hot { color: $red; }
+.temp-normal { color: $foreground; }
+
+.music{
+	padding: 4px;
+}
+.icon-module {
+	padding: 4px;
+  margin: 0 0px;
+  & > &__icon {
+    margin-right: 0px;
+    
+  }
+}
+.pmparent {
+    background-color: rgba($background, 80%);
+
+    border: 1px solid $accent;
+    padding: 12px;
+}
+.header {
+    font-size: 18px;
+    padding: 16px;
+}
+.button-text{
+	color: $fg-muted;
+	font-size: 18px;
+}

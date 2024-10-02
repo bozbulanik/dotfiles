@@ -1,0 +1,23 @@
+@theme "~/.cache/wal/colors-rofi-dark.rasi"
+configuration {
+	modi: "drun,run,ssh";
+	font: "Inconsolata 12";
+	text-color: "#ff0000";
+	show-icons: true;
+	hide-scrollbar: true;
+	terminal: "alacritty";
+	ssh-command: "{terminal} --hold sh -c 'source ~/.profile; ssh -Y {host}'";
+	run-command: "{cmd}";
+	run-shell-command: "{terminal} --hold {cmd}";
+	sort: true;
+	scroll-method: 1;
+	sidebar-mode: false;
+
+	window-format: "{c}		{t}";
+
+	display-drun: ">";
+	display-run: ">";
+	display-ssh: "";
+
+	parse-known-hosts: false;
+}
